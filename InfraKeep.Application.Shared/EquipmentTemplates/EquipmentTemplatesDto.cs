@@ -1,6 +1,8 @@
-﻿namespace InfraKeep.Application.Shared.EquipmentTemplates
+﻿using InfraKeep.Application.Shared.Common;
+
+namespace InfraKeep.Application.Shared.EquipmentTemplates
 {
-    public class EquipmentTemplatesDto
+    public class EquipmentTemplatesDto : EntityDto
     {
         public string TypeEquipment { get; set; }
         public string Model { get; set; }

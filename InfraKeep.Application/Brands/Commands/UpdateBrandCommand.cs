@@ -30,7 +30,6 @@ namespace InfraKeep.Application.Brands.Commands
             if (brand == null) throw new Exception("Бренд не найден");
 
             _mapper.Map(request.Brand, brand);
-
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

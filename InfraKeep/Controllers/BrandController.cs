@@ -17,39 +17,50 @@ namespace InfraKeep.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<BrandDto>>> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
         {
             var query = new GetAllBrandQuery();
-            var result = await _mediator.Send(query);
+            var result = await _mediator.Send(query, cancellationToken);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<List<BrandDto>>> GetAll2(CancellationToken cancellationToken = default)
+        {
+            var query = new GetAllBrandQuery();
+            var result = await _mediator.Send(query, cancellationToken);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] BrandDto dto)
+        public async Task<IActionResult> Create([FromBody] BrandDto dto, CancellationToken cancellationToken = default)
         {
-            var command = new CreateBrandCommand { Brand = dto };
+            if (dto == null) return BadRequest("Данные не переданы");
 
-            await _mediator.Send(command);
+            var command = new CreateBrandCommand { Brand = dto };
+            await _mediator.Send(command, cancellationToken);
 
             return NoContent();
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] BrandDto dto)
+        public async Task<IActionResult> Update(int id, [FromBody] BrandDto dto, CancellationToken cancellationToken = default)
         {
+            if (dto == null) return BadRequest("Данные не переданы");
             if (id != dto.Id) return BadRequest("ID в URL и теле запроса не совпадают");
 
             var command = new UpdateBrandCommand { Brand = dto };
-            await _mediator.Send(command);
+            await _mediator.Send(command, cancellationToken);
 
             return NoContent();
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
             var command = new DeleteBrandCommand { Id = id };
-            await _mediator.Send(command);
+            await _mediator.Send(command, cancellationToken);
+
             return NoContent();
         }
     }

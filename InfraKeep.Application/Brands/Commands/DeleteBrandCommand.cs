@@ -22,7 +22,7 @@ namespace InfraKeep.Application.Brands.Commands
         {
             var brand = await _context.Brands.FindAsync(new object[] { request.Id }, cancellationToken);
 
-            if (brand == null) throw new Exception("Бренд не найден");
+            if (brand == null) throw new Exception("Бренд не найден!");
 
             _context.Brands.Remove(brand);
             await _context.SaveChangesAsync(cancellationToken);

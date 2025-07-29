@@ -1,8 +1,9 @@
-﻿namespace InfraKeep.Application.Shared.Brands
+﻿using InfraKeep.Application.Shared.Common;
+
+namespace InfraKeep.Application.Shared.Brands
 {
-    public class BrandDto
+    public class BrandDto : EntityDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

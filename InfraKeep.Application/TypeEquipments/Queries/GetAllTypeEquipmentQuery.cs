@@ -1,18 +1,29 @@
-﻿using InfraKeep.Application.Mediator;
+﻿using AutoMapper;
+using InfraKeep.Application.Mediator;
+using InfraKeep.Application.Shared.TypeEquipments;
+using InfraKeep.Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace InfraKeep.Application.TypeEquipments.Queries
 {
-    public class GetAllTypeEquipmentQuery : IQuery<Unit>
-    {
+    public class GetAllTypeEquipmentQuery : IQuery<List<TypeEquipmentDto>> { }
 
-    }
-
-    public class GetAllTypeEquipmentQueryHandler : IQueryHandler<GetAllTypeEquipmentQuery, Unit>
+    public class GetAllTypeEquipmentQueryHandler : IQueryHandler<GetAllTypeEquipmentQuery, List<TypeEquipmentDto>>
     {
-        public Task<Unit> Handle(GetAllTypeEquipmentQuery request, CancellationToken cancellationToken)
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+
+        public GetAllTypeEquipmentQueryHandler(ApplicationDbContext context, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task<List<TypeEquipmentDto>> Handle(GetAllTypeEquipmentQuery request, CancellationToken cancellationToken)
+        {
+            var typeEquipments = await _context.TypeEquipments.ToListAsync(cancellationToken);
+            return _mapper.Map<List<TypeEquipmentDto>>(typeEquipments);
         }
     }
 }

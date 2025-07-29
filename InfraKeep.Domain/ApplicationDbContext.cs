@@ -4,15 +4,18 @@ using InfraKeep.Domain.Employees;
 using InfraKeep.Domain.EquipmentTemplates;
 using InfraKeep.Domain.Locations;
 using InfraKeep.Domain.Models;
+using InfraKeep.Domain.Roles;
 using InfraKeep.Domain.TechnicalEquipments;
 using InfraKeep.Domain.TypeEquipments;
+using InfraKeep.Domain.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace InfraKeep.Domain
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
-        public ApplicationDbContext(DbContextOptions options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
